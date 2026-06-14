@@ -204,12 +204,22 @@ final class ProductData implements HasHooks
             return;
         }
 
+        wp_enqueue_style(
+            'addons-admin',
+            \Addons\Plugin::instance()->url('assets/css/admin.css'),
+            [],
+            \Addons\VERSION,
+        );
+
         wp_enqueue_script(
             'addons-admin',
             \Addons\Plugin::instance()->url('assets/js/admin.js'),
-            ['jquery'],
+            [],
             \Addons\VERSION,
-            true,
+            [
+                'in_footer' => true,
+                'strategy'  => 'defer',
+            ],
         );
     }
 }

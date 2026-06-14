@@ -48,6 +48,16 @@ $addons_wrap_class = 'addons-fields' . ($addons_card_style ? ' addons-fields--ca
         $addons_options  = isset($addons_field['options']) && is_array($addons_field['options'])
             ? $addons_field['options']
             : array();
+
+        // Skip malformed definitions (no label) and selects with no choices —
+        // rendering them would produce empty, confusing controls.
+        if ($addons_label === '') {
+            continue;
+        }
+
+        if ($addons_type === 'select' && $addons_options === array()) {
+            continue;
+        }
         ?>
         <p class="addons-field addons-field--<?php echo esc_attr($addons_type); ?>">
             <?php if ($addons_type === 'checkbox') : ?>
