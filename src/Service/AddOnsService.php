@@ -93,9 +93,20 @@ final class AddOnsService implements HasHooks
      */
     private function productMeta(\WC_Product $product): array
     {
-        $raw = $product->get_meta(self::META_KEY, true);
+        $raw         = $product->get_meta(self::META_KEY, true);
+        $definitions = is_array($raw) ? $raw : [];
 
-        return is_array($raw) ? $raw : [];
+        /**
+         * Filter active add-on definitions before the storefront engine renders
+         * and validates them. PRO extensions can hide or reshape definitions
+         * while keeping the free storage format stable.
+         *
+         * @param array<int, array<string, mixed>> $definitions Product add-ons.
+         * @param \WC_Product                     $product     Current product.
+         */
+        $filtered = apply_filters('addons_product_definitions', $definitions, $product);
+
+        return is_array($filtered) ? $filtered : $definitions;
     }
 
     /**

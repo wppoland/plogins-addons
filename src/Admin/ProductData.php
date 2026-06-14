@@ -145,7 +145,20 @@ final class ProductData implements HasHooks
                 $definition['options'] = $this->parseOptions($row['options']);
             }
 
-            $definitions[] = $definition;
+            /**
+             * Filter a single product add-on definition before it is persisted.
+             *
+             * PRO extensions use this hook to attach their own metadata (for
+             * example conditional-logic rules) without forking the free editor.
+             *
+             * @param array<string, mixed> $definition Sanitised definition.
+             * @param array<string, mixed> $row        Raw posted row.
+             */
+            $definition = apply_filters('addons_sanitize_definition', $definition, $row);
+
+            if (is_array($definition)) {
+                $definitions[] = $definition;
+            }
         }
 
         return $definitions;

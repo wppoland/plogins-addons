@@ -59,6 +59,18 @@ $addons_rows = isset($add_ons) && is_array($add_ons) ? $add_ons : array();
                     <p class="form-field">
                         <textarea name="addons_def[<?php echo esc_attr((string) $addons_i); ?>][options]" rows="3" placeholder="<?php esc_attr_e('Select options, one per line: Label | price', 'addons'); ?>" style="width:100%;"><?php echo esc_textarea($addons_options); ?></textarea>
                     </p>
+                    <?php
+                    /**
+                     * Render extra admin fields for one add-on definition row.
+                     *
+                     * Premium extensions use this hook to store extra metadata
+                     * without replacing the free product-data template.
+                     *
+                     * @param int                  $addons_i   Row index.
+                     * @param array<string, mixed> $addons_row Stored row data.
+                     */
+                    do_action('addons_product_data_row_fields', (int) $addons_i, $addons_row);
+                    ?>
                 </div>
             <?php endforeach; ?>
         </div>
@@ -86,6 +98,15 @@ $addons_rows = isset($add_ons) && is_array($add_ons) ? $add_ons : array();
                 <p class="form-field">
                     <textarea name="addons_def[__INDEX__][options]" rows="3" placeholder="<?php esc_attr_e('Select options, one per line: Label | price', 'addons'); ?>" style="width:100%;"></textarea>
                 </p>
+                <?php
+                /**
+                 * Render extra admin fields inside the JavaScript row template.
+                 *
+                 * Extensions should use the __INDEX__ placeholder in generated
+                 * input names so the free repeater can replace it.
+                 */
+                do_action('addons_product_data_row_template_fields');
+                ?>
             </div>
         </script>
     </div>
