@@ -87,6 +87,65 @@ final class Settings implements HasHooks
                                 </label>
                             </td>
                         </tr>
+                        <tr>
+                            <th scope="row">
+                                <label for="addons_group_title"><?php esc_html_e('Group heading', 'addons'); ?></label>
+                            </th>
+                            <td>
+                                <input
+                                    type="text"
+                                    id="addons_group_title"
+                                    class="regular-text"
+                                    name="<?php echo esc_attr(AddOnsService::OPTION); ?>[group_title]"
+                                    value="<?php echo esc_attr((string) ($settings['group_title'] ?? '')); ?>"
+                                />
+                                <p class="description">
+                                    <?php esc_html_e('Heading shown above the fields on the product page. Leave empty to hide it.', 'addons'); ?>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th scope="row"><?php esc_html_e('Display', 'addons'); ?></th>
+                            <td>
+                                <fieldset>
+                                    <legend class="screen-reader-text">
+                                        <span><?php esc_html_e('Display', 'addons'); ?></span>
+                                    </legend>
+                                    <label for="addons_show_prices">
+                                        <input
+                                            type="checkbox"
+                                            id="addons_show_prices"
+                                            name="<?php echo esc_attr(AddOnsService::OPTION); ?>[show_prices]"
+                                            value="1"
+                                            <?php checked((bool) ($settings['show_prices'] ?? false), true); ?>
+                                        />
+                                        <?php esc_html_e('Show the price next to paid options.', 'addons'); ?>
+                                    </label>
+                                    <br />
+                                    <label for="addons_show_required">
+                                        <input
+                                            type="checkbox"
+                                            id="addons_show_required"
+                                            name="<?php echo esc_attr(AddOnsService::OPTION); ?>[show_required]"
+                                            value="1"
+                                            <?php checked((bool) ($settings['show_required'] ?? false), true); ?>
+                                        />
+                                        <?php esc_html_e('Mark required fields with an asterisk.', 'addons'); ?>
+                                    </label>
+                                    <br />
+                                    <label for="addons_card_style">
+                                        <input
+                                            type="checkbox"
+                                            id="addons_card_style"
+                                            name="<?php echo esc_attr(AddOnsService::OPTION); ?>[card_style]"
+                                            value="1"
+                                            <?php checked((bool) ($settings['card_style'] ?? false), true); ?>
+                                        />
+                                        <?php esc_html_e('Wrap the options in a bordered card.', 'addons'); ?>
+                                    </label>
+                                </fieldset>
+                            </td>
+                        </tr>
                     </tbody>
                 </table>
 
@@ -115,7 +174,11 @@ final class Settings implements HasHooks
         $defaults = $this->settings();
 
         return array_merge($defaults, [
-            'enabled' => ! empty($raw['enabled']),
+            'enabled'       => ! empty($raw['enabled']),
+            'group_title'   => isset($raw['group_title']) ? sanitize_text_field((string) $raw['group_title']) : '',
+            'show_prices'   => ! empty($raw['show_prices']),
+            'show_required' => ! empty($raw['show_required']),
+            'card_style'    => ! empty($raw['card_style']),
         ]);
     }
 

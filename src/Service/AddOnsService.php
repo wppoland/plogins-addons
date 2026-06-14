@@ -39,7 +39,7 @@ final class AddOnsService implements HasHooks
             fieldPrefix: 'addons_field_',
             fieldsTemplate: 'add-on-fields',
             labels: [
-                'group_title'    => __('Product options', 'addons'),
+                'group_title'    => $this->groupTitle(),
                 'required_error' => __('Please complete the "{label}" option before adding to cart.', 'addons'),
             ],
             isEnabled: fn (): bool => $this->isEnabled(),
@@ -84,6 +84,15 @@ final class AddOnsService implements HasHooks
     private function isEnabled(): bool
     {
         return (bool) ($this->settings()['enabled'] ?? false);
+    }
+
+    /**
+     * Heading rendered above the add-on fields. An empty value intentionally
+     * hides the heading; the packaged default supplies the initial text.
+     */
+    private function groupTitle(): string
+    {
+        return trim((string) ($this->settings()['group_title'] ?? ''));
     }
 
     /**

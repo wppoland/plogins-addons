@@ -2,6 +2,13 @@
 	margin: 0 0 1.5em;
 }
 
+.addons-fields--card {
+	padding: 1em 1.25em;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	border-radius: 6px;
+	background: rgba(0, 0, 0, 0.02);
+}
+
 .addons-fields__title {
 	font-weight: 600;
 	margin: 0 0 0.5em;
